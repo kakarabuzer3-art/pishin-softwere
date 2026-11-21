@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="ur" class="h-full bg-[#07090e] text-slate-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pishin Inverter Factory & Next-Gen Smart Hisaab Center</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        void: { 900: '#07090e', 800: '#0f172a', 700: '#1e293b' },
+                        cyber: { amber: '#f59e0b', crimson: '#f43f5e', cyan: '#06b6d4', emerald: '#10b981' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #0b0f19; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+        @media print {
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            body { background: white; color: black; }
+        }
+    </style>
+</head>
+<body class="h-full flex flex-col overflow-hidden text-sm">
+
+    <header class="no-print bg-[#0c101d] border-b border-slate-800 px-6 py-3.5 flex justify-between items-center z-20 shadow-2xl">
+        <div class="flex items-center gap-3">
+            <div class="p-2.5 bg-gradient-to-br from-amber-500/20 to-rose-500/20 text-amber-400 rounded-xl border border-amber-500/30 shadow-inner">
+                <i class="fa-solid fa-industry text-xl animate-pulse"></i>
+            </div>
+            <div>
+                <h1 class="font-extrabold text-base leading-tight tracking-wide text-white flex items-center gap-2">
+                    PISHIN INVERTER FACTORY & 200-YEAR LEDGER VAULT
+                    <span class="text-[10px] px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">SENIOR SEO SMART</span>
+                </h1>
+                <p class="text-[11px] text-slate-400">Custom Parts (Meter, Pices, Feet), Deep Customer Vault & Infinite Timeline</p>
+            </div>
+        </div>
+        
+        <div class="flex items-center gap-4">
+            <div class="relative">
+                <button onclick="toggleNotifications()" class="relative p-2.5 bg-[#151c2f] hover:bg-[#1e293b] rounded-xl text-slate-200 border border-slate-800 transition shadow-lg">
+                    <i class="fa-solid fa-bell text-base text-amber-400"></i>
+                    <span id="notif-badge" class="hidden absolute -top-1 -right-1 bg-rose-600 text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center shadow-lg">0</span>
+                </button>
+                <div id="notif-dropdown" class="hidden absolute right-0 mt-2 w-80 bg-[#0f172a] border border-slate-700/80 rounded-2xl shadow-2xl z-50 p-4 space-y-3">
+                    <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                        <span class="font-bold text-xs text-rose-400 flex items-center gap-1.5"><i class="fa-solid fa-triangle-exclamation"></i> Low Stock & Alerts</span>
+                        <span id="notif-count-text" class="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-amber-400 font-bold">0 Alerts</span>
+                    </div>
+                    <div id="notif-list" class="space-y-2 max-h-60 overflow-y-auto pr-1 text-xs"></div>
+                </div>
+            </div>
+
+            <button onclick="exportData()" class="px-3.5 py-2 bg-[#151c2f] hover:bg-[#1e293b] border border-slate-800 rounded-xl text-xs font-medium transition flex items-center gap-2 text-slate-300">
+                <i class="fa-solid fa-download text-cyan-400"></i> Backup
+            </button>
+            <label class="px-3.5 py-2 bg-[#151c2f] hover:bg-[#1e293b] border border-slate-800 rounded-xl text-xs font-medium cursor-pointer transition flex items-center gap-2 text-slate-300">
+                <i class="fa-solid fa-upload text-amber-400"></i> Restore
+                <input type="file" id="importFile" onchange="importData(event)" class="hidden">
+            </label>
+        </div>
+    </header>
+
+    <div class="flex-1 flex overflow-hidden">
+        <aside class="no-print w-64 bg-[#0a0e17] border-r border-slate-800/80 p-4 flex flex-col justify-between shrink-0">
+            <nav class="space-y-2">
+                <button onclick="switchTab('dashboard')" id="nav-dashboard" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition text-cyan-400 bg-cyan-500/10 border border-cyan-500/30 shadow-lg shadow-cyan-500/5">
+                    <i class="fa-solid fa-chart-line w-5 text-center"></i> Dashboard & Analytics
+                </button>
+                <button onclick="switchTab('factory')" id="nav-factory" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition text-slate-400 hover:bg-[#131b2e] hover:text-slate-200">
+                    <i class="fa-solid fa-boxes-stacked w-5 text-center text-amber-400"></i> Factory Parts & Raw Items
+                </button>
+                <button onclick="switchTab('inventory')" id="nav-inventory" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition text-slate-400 hover:bg-[#131b2e] hover:text-slate-200">
+                    <i class="fa-solid fa-microchip w-5 text-center"></i> Finished Goods Stock
+                </button>
+                <button onclick="switchTab('customers')" id="nav-customers" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition text-slate-400 hover:bg-[#131b2e] hover:text-slate-200">
+                    <i class="fa-solid fa-users w-5 text-center"></i> Customer & 200-Yr Vault
+                </button>
+                <button onclick="switchTab('invoices')" id="nav-invoices" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition text-slate-400 hover:bg-[#131b2e] hover:text-slate-200">
+                    <i class="fa-solid fa-file-invoice-dollar w-5 text-center"></i> Invoices & Dispatches
+                </button>
+            </nav>
+
+            <div class="p-3.5 bg-[#0f172a] rounded-2xl border border-slate-800">
+                <div class="flex items-center justify-between text-xs text-slate-400 mb-1.5">
+                    <span>Database Memory</span>
+                    <span id="storage-status" class="font-mono text-cyan-400">0%</span>
+                </div>
+                <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                    <div id="storage-bar" class="bg-gradient-to-r from-cyan-500 to-blue-600 h-full w-0"></div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="flex-1 overflow-y-auto p-6 bg-[#07090e]" id="main-content">
+            
+            <!-- SECTION: DASHBOARD -->
+            <section id="sec-dashboard" class="space-y-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-[#0f172a]/90 backdrop-blur p-5 rounded-2xl border border-slate-800 shadow-xl relative overflow-hidden">
+                        <div>
+                            <p class="text-xs text-slate-400 font-medium">Factory Raw Items & Parts</p>
+                            <h3 id="dash-factory-units" class="text-2xl font-black text-white mt-1">0</h3>
+                        </div>
+                        <div class="absolute right-4 top-4 p-3 bg-cyan-500/10 text-cyan-400 rounded-xl border border-cyan-500/20"><i class="fa-solid fa-boxes-stacked text-xl"></i></div>
+                    </div>
+                    <div class="bg-[#0f172a]/90 backdrop-blur p-5 rounded-2xl border border-slate-800 shadow-xl relative overflow-hidden">
+                        <div>
+                            <p class="text-xs text-slate-400 font-medium">Low Stock Warnings</p>
+                            <h3 id="dash-low-count" class="text-2xl font-black text-rose-400 mt-1">0</h3>
+                        </div>
+                        <div class="absolute right-4 top-4 p-3 bg-rose-500/10 text-rose-400 rounded-xl border border-rose-500/20"><i class="fa-solid fa-triangle-exclamation text-xl"></i></div>
+                    </div>
+                    <div class="bg-[#0f172a]/90 backdrop-blur p-5 rounded-2xl border border-slate-800 shadow-xl relative overflow-hidden">
+                        <div>
+                            <p class="text-xs text-slate-400 font-medium">Total Pending Dues (بقایا)</p>
+                            <h3 id="dash-pending-dues" class="text-2xl font-black text-amber-400 mt-1">Rs 0</h3>
+                        </div>
+                        <div class="absolute right-4 top-4 p-3 bg-amber-500/10 text-amber-400 rounded-xl border border-amber-500/20"><i class="fa-solid fa-wallet text-xl"></i></div>
+                    </div>
+                    <div class="bg-[#0f172a]/90 backdrop-blur p-5 rounded-2xl border border-slate-800 shadow-xl relative overflow-hidden">
+                        <div>
+                            <p class="text-xs text-slate-400 font-medium">Active Customers Vault</p>
+                            <h3 id="dash-cust-count" class="text-2xl font-black text-emerald-400 mt-1">0</h3>
+                        </div>
+                        <div class="absolute right-4 top-4 p-3 bg-emerald-500/10 text-emerald-400 rounded-xl border border-emerald-500/20"><i class="fa-solid fa-users text-xl"></i></div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-[#0f172a]/90 backdrop-blur p-5 rounded-2xl border border-slate-800 shadow-xl">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="font-bold text-white flex items-center gap-2"><i class="fa-solid fa-chart-bar text-cyan-400"></i> Factory Inventory Distribution</h2>
+                        </div>
+                        <div class="relative w-full h-64 bg-[#07090e] rounded-xl overflow-hidden flex items-center justify-center p-2 border border-slate-800/80">
+                            <canvas id="stockCanvas" class="w-full h-full"></canvas>
+                        </div>
+                    </div>
+                    <div class="bg-[#0f172a]/90 backdrop-blur p-5 rounded-2xl border border-slate-800 shadow-xl">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="font-bold text-white flex items-center gap-2"><i class="fa-solid fa-chart-pie text-emerald-400"></i> Financial Overview</h2>
+                        </div>
+                        <div class="relative w-full h-64 bg-[#07090e] rounded-xl overflow-hidden flex items-center justify-center p-2 border border-slate-800/80">
+                            <canvas id="financeCanvas" class="w-full h-full"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: FACTORY PARTS -->
+            <section id="sec-factory" class="hidden space-y-6">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h2 class="text-xl font-bold text-white">Factory Raw Items & Parts (Meter, Pices, Feet etc.)</h2>
+                        <p class="text-xs text-slate-400">Add any item with custom units, edit records, delete items, and track low stock limits</p>
+                    </div>
+                    <button onclick="openPartModal()" class="px-4 py-2 bg-gradient-to-r from-amber-600 to-rose-600 hover:from-amber-500 hover:to-rose-500 text-white rounded-xl font-semibold transition text-xs flex items-center gap-2 shadow-lg shadow-amber-600/20">
+                        <i class="fa-solid fa-plus"></i> + Add Any Item (Meter/Pices/Feet)
+                    </button>
+                </div>
+                <div class="bg-[#0f172a]/90 rounded-2xl border border-slate-800 shadow-xl overflow-hidden">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-[#0c101d] text-slate-400 text-xs border-b border-slate-800">
+                                <th class="p-3.5">Code</th>
+                                <th class="p-3.5">Item Name</th>
+                                <th class="p-3.5">Cost Price</th>
+                                <th class="p-3.5">Quantity & Unit (Meter/Pices/Feet)</th>
+                                <th class="p-3.5">Low Limit</th>
+                                <th class="p-3.5">Status</th>
+                                <th class="p-3.5 text-right">Actions (Edit/Delete)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="factory-parts-tbody" class="divide-y divide-slate-800/60 text-slate-300"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SECTION: INVENTORY -->
+            <section id="sec-inventory" class="hidden space-y-6">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h2 class="text-xl font-bold text-white">Finished Goods Stock</h2>
+                        <p class="text-xs text-slate-400">Ready Inverters and Solar units</p>
+                    </div>
+                    <button onclick="openStockModal()" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-semibold transition text-xs flex items-center gap-2">
+                        <i class="fa-solid fa-plus"></i> Add Finished Item
+                    </button>
+                </div>
+                <div class="bg-[#0f172a]/90 rounded-2xl border border-slate-800 shadow-xl overflow-hidden">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-[#0c101d] text-slate-400 text-xs border-b border-slate-800">
+                                <th class="p-3.5">Code</th>
+                                <th class="p-3.5">Item Name</th>
+                                <th class="p-3.5">Cost</th>
+                                <th class="p-3.5">Sell Price</th>
+                                <th class="p-3.5">Stock Qty</th>
+                                <th class="p-3.5 text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inventory-table-body" class="divide-y divide-slate-800/60 text-slate-300"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SECTION: CUSTOMERS & 200-YEAR VAULT -->
+            <section id="sec-customers" class="hidden space-y-6">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h2 class="text-xl font-bold text-white flex items-center gap-2"><i class="fa-solid fa-vault text-cyan-400"></i> Customer Ledger & 200-Year Timeline Vault</h2>
+                        <p class="text-xs text-slate-400">Edit customers, delete records, manage returns, and approve credit balances</p>
+                    </div>
+                    <button onclick="openCustomerModal()" class="px-4 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white rounded-xl font-semibold transition text-xs flex items-center gap-2 shadow-lg shadow-cyan-600/20">
+                        <i class="fa-solid fa-user-plus"></i> + Add Customer
+                    </button>
+                </div>
+
+                <div class="bg-[#0f172a]/90 rounded-2xl border border-slate-800 shadow-xl overflow-hidden">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-[#0c101d] text-slate-400 text-xs border-b border-slate-800">
+                                <th class="p-3.5">Customer Name & Phone</th>
+                                <th class="p-3.5">Guarantor (ضامن)</th>
+                                <th class="p-3.5">Address & Risk Tag</th>
+                                <th class="p-3.5">Total Cumulative Amount</th>
+                                <th class="p-3.5">Total Paid (Wasool)</th>
+                                <th class="p-3.5">Net Balance (Baqaya)</th>
+                                <th class="p-3.5 text-right">Actions (Ledger/Edit/Delete)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="customer-table-body" class="divide-y divide-slate-800/60 text-slate-300"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SECTION: INVOICES -->
+            <section id="sec-invoices" class="hidden space-y-6">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h2 class="text-xl font-bold text-white">Invoices & Dispatches</h2>
+                        <p class="text-xs text-slate-400">Printable bills</p>
+                    </div>
+                    <button onclick="openNewInvoiceModal()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-semibold transition text-xs">
+                        Create Invoice
+                    </button>
+                </div>
+                <div class="bg-[#0f172a]/90 rounded-2xl border border-slate-800 shadow-xl overflow-hidden">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-[#0c101d] text-slate-400 text-xs border-b border-slate-800">
+                                <th class="p-3.5">Invoice #</th>
+                                <th class="p-3.5">Date</th>
+                                <th class="p-3.5">Customer</th>
+                                <th class="p-3.5">Amount</th>
+                                <th class="p-3.5 text-right">Print</th>
+                            </tr>
+                        </thead>
+                        <tbody id="invoices-table-body" class="divide-y divide-slate-800/60 text-slate-300"></tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- MODAL: ADD/EDIT CUSTOMER -->
+    <div id="modal-customer" class="hidden fixed inset-0 bg-[#07090e]/95 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="bg-[#0f172a] rounded-3xl border border-cyan-500/40 w-full max-w-2xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
+            <div class="p-4 bg-cyan-500/10 border-b border-cyan-500/30 flex justify-between items-center shrink-0">
+                <h3 id="modal-customer-title" class="font-bold text-cyan-300 flex items-center gap-2"><i class="fa-solid fa-user-plus"></i> Add New Customer</h3>
+                <button onclick="closeModal('modal-customer')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <form id="form-customer" onsubmit="saveCustomerWithHistory(event)" class="p-6 space-y-4 overflow-y-auto flex-1">
+                <input type="hidden" id="edit-customer-id">
+                
+                <div class="bg-[#07090e] p-4 rounded-2xl border border-slate-800 space-y-3">
+                    <h4 class="font-bold text-xs text-cyan-400 flex items-center gap-1.5"><i class="fa-solid fa-id-card"></i> Customer Basic Information</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-[11px] font-medium text-slate-300 mb-1">Customer Full Name *</label>
+                            <input type="text" id="c-name" required placeholder="e.g. Haji Naimatullah" class="w-full bg-[#151c2f] border border-slate-700 rounded-xl px-3 py-2.5 text-white text-xs">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-medium text-slate-300 mb-1">Mobile Phone Number *</label>
+                            <input type="text" id="c-phone" required placeholder="03xx-xxxxxxx" class="w-full bg-[#151c2f] border border-slate-700 rounded-xl px-3 py-2.5 text-white text-xs">
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label class="block text-[11px] font-medium text-slate-300 mb-1">Address / Location *</label>
+                            <input type="text" id="c-address" required placeholder="Pishin Main Bazaar" class="w-full bg-[#151c2f] border border-slate-700 rounded-xl px-3 py-2.5 text-white text-xs">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="initial-transaction-box" class="border-t border-slate-800 pt-3">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="font-bold text-xs text-amber-400 flex items-center gap-1.5"><i class="fa-solid fa-receipt"></i> Initial Transaction (Optional)</span>
+                    </div>
+                    <div id="history-rows-container" class="space-y-3"></div>
+                </div>
+
+                <div class="flex justify-end gap-2 pt-4 border-t border-slate-800">
+                    <button type="button" onclick="closeModal('modal-customer')" class="px-4 py-2.5 bg-slate-800 text-xs text-slate-300 rounded-xl">Cancel</button>
+                    <button type="submit" class="px-5 py-2.5 bg-cyan-600 hover:bg-cyan-500 text-xs font-medium text-white rounded-xl shadow-lg shadow-cyan-600/30">Save Customer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- FULL-SCREEN MODAL: CUSTOMER 200-YEAR TIMELINE & LEDGER -->
+    <div id="drawer-customer" class="hidden fixed inset-0 bg-[#07090e]/95 backdrop-blur-md z-50 flex flex-col overflow-hidden">
+        <div class="p-5 bg-[#0c101d] border-b border-slate-800 flex justify-between items-center shrink-0 shadow-2xl">
+            <div class="flex items-center gap-3">
+                <div class="p-3 bg-cyan-500/10 text-cyan-400 rounded-2xl border border-cyan-500/30"><i class="fa-solid fa-user-shield text-xl"></i></div>
+                <div>
+                    <h3 id="drawer-c-name" class="font-extrabold text-white text-lg">Customer Name</h3>
+                    <p id="drawer-c-meta" class="text-xs text-slate-400">Phone & Location</p>
+                </div>
+            </div>
+            <button onclick="closeCustomerDrawer()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold flex items-center gap-2 transition"><i class="fa-solid fa-xmark text-base"></i> Close Full-Screen</button>
+        </div>
+
+        <div class="p-8 overflow-y-auto flex-1 space-y-6 max-w-6xl mx-auto w-full">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <div class="bg-[#0f172a] p-6 rounded-3xl border border-slate-800 text-center shadow-xl">
+                    <p class="text-xs text-slate-400">Total Khata / Bill</p>
+                    <h4 id="drawer-tot-bill" class="text-2xl font-black text-white mt-1">Rs 0</h4>
+                </div>
+                <div class="bg-[#0f172a] p-6 rounded-3xl border border-slate-800 text-center shadow-xl">
+                    <p class="text-xs text-slate-400">Total Wasool (Paid)</p>
+                    <h4 id="drawer-tot-paid" class="text-2xl font-black text-emerald-400 mt-1">Rs 0</h4>
+                </div>
+                <div class="bg-[#0f172a] p-6 rounded-3xl border border-slate-800 text-center shadow-xl">
+                    <p class="text-xs text-slate-400">Net Baqaya (Due)</p>
+                    <h4 id="drawer-tot-due" class="text-2xl font-black text-rose-400 mt-1">Rs 0</h4>
+                </div>
+            </div>
+
+            <div class="bg-[#0f172a] p-6 rounded-3xl border border-slate-800 space-y-4 shadow-xl">
+                <h4 class="font-bold text-sm text-cyan-400 flex items-center gap-2"><i class="fa-solid fa-plus-circle"></i> Add New Entry to Timeline Ledger</h4>
+                <form onsubmit="addEntryToDrawerCustomer(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <input type="hidden" id="drawer-cust-id">
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Inverter / Item / Service</label>
+                        <input type="text" id="d-inverter" required placeholder="e.g. 6KW Inverter Repair & Parts" class="w-full bg-[#07090e] border border-slate-700 rounded-xl px-3.5 py-2.5 text-white text-xs">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Date (Tarekh)</label>
+                        <input type="date" id="d-date" required class="w-full bg-[#07090e] border border-slate-700 rounded-xl px-3.5 py-2.5 text-white text-xs">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Expected Return Date (Kab Wapis)</label>
+                        <input type="date" id="d-return-date" class="w-full bg-[#07090e] border border-slate-700 rounded-xl px-3.5 py-2.5 text-white text-xs">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Total Amount (Rs)</label>
+                        <input type="number" id="d-total" min="0" required class="w-full bg-[#07090e] border border-slate-700 rounded-xl px-3.5 py-2.5 text-white text-xs">
+                    </div>
+                    <div class="sm:col-span-2 flex items-end">
+                        <button type="submit" class="w-full py-2.5 bg-cyan-600 hover:bg-cyan-500 text-xs text-white font-semibold rounded-xl shadow-lg shadow-cyan-600/30">Add to Timeline</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="space-y-4">
+                <h4 class="font-bold text-sm text-slate-300 flex items-center gap-2"><i class="fa-solid fa-clock-rotate-left text-amber-400"></i> Complete Historical Ledger Timeline</h4>
+                <div id="drawer-timeline-list" class="space-y-3"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: FACTORY PART -->
+    <div id="modal-part" class="hidden fixed inset-0 bg-[#07090e]/90 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="bg-[#0f172a] rounded-3xl border border-slate-700 w-full max-w-md p-6 space-y-4 shadow-2xl">
+            <h3 id="modal-part-title" class="font-bold text-white text-base">Add Factory Item</h3>
+            <form onsubmit="saveFactoryPart(event)" class="space-y-3">
+                <input type="hidden" id="edit-part-id">
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">Item Code / Part No</label>
+                    <input type="text" id="part-code" required placeholder="e.g. MTR-01 or CAP-450V" class="w-full bg-[#07090e] border border-slate-700 rounded-xl p-2.5 text-white text-xs">
+                </div>
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">Item Name (Any Name)</label>
+                    <input type="text" id="part-name" required placeholder="e.g. Copper Wire, Capacitor, IGBT, Screws" class="w-full bg-[#07090e] border border-slate-700 rounded-xl p-2.5 text-white text-xs">
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Cost Price (Rs)</label>
+                        <input type="number" id="part-cost" min="0" required placeholder="0" class="w-full bg-[#07090e] border border-slate-700 rounded-xl p-2.5 text-white text-xs">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Quantity</label>
+                        <input type="number" id="part-qty" min="0" step="any" required placeholder="0" class="w-full bg-[#07090e] border border-slate-700 rounded-xl p-2.5 text-white text-xs">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Unit Type</label>
+                        <select id="part-unit" class="w-full bg-[#07090e] border border-slate-700 rounded-xl p-2.5 text-white text-xs">
+                            <option value="Pieces">Pieces (پیس)</option>
+                            <option value="Meters">Meters (میٹر)</option>
+                            <option value="Feet">Feet (فٹ)</option>
+                            <option value="Kg">Kg (کلوگرام)</option>
+                            <option value="Packets">Packets (پیکٹ)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Low Alert Limit</label>
+                        <input type="number" id="part-low" min="0" value="5" required class="w-full bg-[#07090e] border border-slate-700 rounded-xl p-2.5 text-white text-xs">
+                    </div>
+                </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeModal('modal-part')" class="px-4 py-2 bg-slate-800 text-xs text-slate-300 rounded-xl">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-xs text-white rounded-xl">Save Item</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: FINISHED GOODS STOCK -->
+    <div id="modal-stock" class="hidden fixed inset-0 bg-[#07090e]/90 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="bg-[#0f172a] rounded-3xl border border-slate-700 w-full max-w-md p-6 space-y-4 shadow-2xl">
+            <h3 id="modal-stock-title" class="font-bold text-white text-base">Add Finished Goods Item</h3>
+            <form onsubmit="saveStockItem(event)" class="space-y-3">
+                <input type="hidden" id="edit-stock-id">
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">Product Code</label>
+                    <input type="text" id="stock-code" required placeholder="e.g. INV-6KW" class="w-full bg-[#07090e] border border-slate-700 rounded-xl p-2.5 text-white text-xs">
+                </div>
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">Product Name</label>
+                    <input type="text" id="stock-name" required placeholder="e.g. 6KW Hybrid Solar Inverter" class="w-full bg-[#07090e] border border-slate-700 rounded-xl p-2.5 text-white text-xs">
+                </div>
+                <div class="grid grid-cols-3 gap-2">
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Cost Price (Rs)</label>
+                        <input type="number" id="stock-cost" min="0" required placeholder="0" class="w-full bg-[#07090e] border border-slate-700 rounded-xl p-2.5 text-white text-xs">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Sell Price (Rs)</label>
+                        <input type="number" id="stock-sell" min="0" required placeholder="0" class="w-full bg-[#07090e] border border-slate-700 rounded-xl p-2.5 text-white text-xs">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Quantity</label>
+                        <input type="number" id="stock-qty" min="0" required placeholder="0" class="w-full bg-[#07090e] border border-slate-700 rounded-xl p-2.5 text-white text-xs">
+                    </div>
+                </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeModal('modal-stock')" class="px-4 py-2 bg-slate-800 text-xs text-slate-300 rounded-xl">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-xs text-white rounded-xl">Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Data Store Initialization
+        let db = {
+            factoryParts: [
+                { id: '1', code: 'MTR-CU', name: 'Pure Copper Wire', cost: 1200, qty: 150, unit: 'Meters', low: 30 },
+                { id: '2', code: 'IGBT-40N', name: 'Inverter IGBT Module', cost: 4500, qty: 8, unit: 'Pieces', low: 10 },
+                { id: '3', code: 'CAP-450V', name: 'Filter Capacitor 450V', cost: 850, qty: 25, unit: 'Pieces', low: 15 }
+            ],
+            inventory: [
+                { id: '1', code: 'INV-6KW', name: '6KW Hybrid Solar Inverter', cost: 135000, sell: 165000, qty: 5 },
+                { id: '2', code: 'INV-10KW', name: '10KW Three-Phase Inverter', cost: 240000, sell: 285000, qty: 2 }
+            ],
+            customers: [
+                {
+                    id: '1',
+                    name: 'Haji Naimatullah',
+                    phone: '0333-7894561',
+                    address: 'Pishin Main Bazaar',
+                    guarantor: 'Malik Abdul Rahman',
+                    risk: 'Trusted',
+                    history: [
+                        { id: 'h1', inverter: '6KW Inverter Complete Repair', date: '2026-04-10', returnDate: '2026-04-15', total: 45000, paid: 45000 }
+                    ]
+                }
+            ],
+            invoices: [
+                { id: 'INV-1001', date: '2026-04-10', customerName: 'Haji Naimatullah', amount: 45000, items: [{name: '6KW Inverter Repair', qty: 1, price: 45000}] }
+            ]
+        };
+
+        function loadData() {
+            const saved = localStorage.getItem('pishin_factory_db_v2');
+            if (saved) {
+                try { db = JSON.parse(saved); } catch(e) { console.error(e); }
+            }
+        }
+
+        function saveData() {
+            localStorage.setItem('pishin_factory_db_v2', JSON.stringify(db));
+            updateStorageIndicator();
+            renderDashboard();
+            renderFactoryParts();
+            renderInventory();
+            renderCustomers();
+            renderInvoices();
+            checkNotifications();
+        }
+
+        function updateStorageIndicator() {
+            const str = localStorage.getItem('pishin_factory_db_v2') || '';
+            const kb = (str.length / 1024).toFixed(1);
+            const pct = Math.min(100, Math.round((str.length / (5 * 1024 * 1024)) * 100));
+            document.getElementById('storage-status').innerText = `${kb} KB (${pct}%)`;
+            document.getElementById('storage-bar').style.width = `${pct}%`;
+        }
+
+        // Tab Switching
+        function switchTab(tabId) {
+            ['dashboard', 'factory', 'inventory', 'customers', 'invoices'].forEach(t => {
+                document.getElementById('sec-' + t).classList.add('hidden');
+                const btn = document.getElementById('nav-' + t);
+                if (btn) {
+                    btn.className = "w-full flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition text-slate-400 hover:bg-[#131b2e] hover:text-slate-200";
+                }
+            });
+            document.getElementById('sec-' + tabId).classList.remove('hidden');
+            const activeBtn = document.getElementById('nav-' + tabId);
+            if (activeBtn) {
+                activeBtn.className = "w-full flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition text-cyan-400 bg-cyan-500/10 border border-cyan-500/30 shadow-lg shadow-cyan-500/5";
+            }
+            if (tabId === 'dashboard') {
+                renderCharts();
+            }
+        }
+
+        // Dashboard & Analytics
+        function renderDashboard() {
+            let totalFactoryUnits = db.factoryParts.reduce((acc, p) => acc + Number(p.qty), 0);
+            let lowStockCount = db.factoryParts.filter(p => Number(p.qty) <= Number(p.low)).length;
+            
+            let totalPendingDues = 0;
+            db.customers.forEach(c => {
+                let totBill = c.history.reduce((a, h) => a + Number(h.total), 0);
+                let totPaid = c.history.reduce((a, h) => a + Number(h.paid), 0);
+                totalPendingDues += Math.max(0, totBill - totPaid);
+            });
+
+            document.getElementById('dash-factory-units').innerText = totalFactoryUnits.toLocaleString();
+            document.getElementById('dash-low-count').innerText = lowStockCount;
+            document.getElementById('dash-pending-dues').innerText = 'Rs ' + totalPendingDues.toLocaleString();
+            document.getElementById('dash-cust-count').innerText = db.customers.length;
+        }
+
+        function renderCharts() {
+            const stockCanvas = document.getElementById('stockCanvas');
+            if (stockCanvas && stockCanvas.getContext) {
+                const ctx = stockCanvas.getContext('2d');
+                stockCanvas.width = stockCanvas.parentElement.clientWidth;
+                stockCanvas.height = 250;
+                ctx.clearRect(0, 0, stockCanvas.width, stockCanvas.height);
+                
+                let parts = db.factoryParts.slice(0, 6);
+                if (parts.length === 0) return;
+                let maxQty = Math.max(...parts.map(p => Number(p.qty)), 10);
+                let barWidth = stockCanvas.width / (parts.length * 2);
+                
+                parts.forEach((p, i) => {
+                    let h = (Number(p.qty) / maxQty) * 160;
+                    let x = i * (barWidth * 2) + barWidth / 2;
+                    let y = stockCanvas.height - h - 30;
+                    
+                    ctx.fillStyle = '#06b6d4';
+                    ctx.fillRect(x, y, barWidth, h);
+                    
+                    ctx.fillStyle = '#94a3b8';
+                    ctx.font = '10px sans-serif';
+                    ctx.fillText(p.code.substring(0, 6), x, stockCanvas.height - 10);
+                });
+            }
+
+            const financeCanvas = document.getElementById('financeCanvas');
+            if (financeCanvas && financeCanvas.getContext) {
+                const ctx2 = financeCanvas.getContext('2d');
+                financeCanvas.width = financeCanvas.parentElement.clientWidth;
+                financeCanvas.height = 250;
+                ctx2.clearRect(0, 0, financeCanvas.width, financeCanvas.height);
+                
+                let totalInvValue = db.inventory.reduce((a, i) => a + (Number(i.sell) * Number(i.qty)), 0);
+                let totalFactoryValue = db.factoryParts.reduce((a, p) => a + (Number(p.cost) * Number(p.qty)), 0);
+                
+                let data = [
+                    { label: 'Finished Goods', val: totalInvValue, color: '#10b981' },
+                    { label: 'Factory Parts', val: totalFactoryValue, color: '#f59e0b' }
+                ];
+                let maxVal = Math.max(...data.map(d => d.val), 1000);
+                let bw = 60;
+                
+                data.forEach((d, i) => {
+                    let h = (d.val / maxVal) * 160;
+                    let x = 60 + i * 140;
+                    let y = financeCanvas.height - h - 30;
+                    
+                    ctx2.fillStyle = d.color;
+                    ctx2.fillRect(x, y, bw, h);
+                    
+                    ctx2.fillStyle = '#f8fafc';
+                    ctx2.font = '11px sans-serif';
+                    ctx2.fillText(d.label, x, financeCanvas.height - 12);
+                    ctx2.fillText('Rs ' + d.val.toLocaleString(), x, y - 8);
+                });
+            }
+        }
+
+        // Factory Parts CRUD
+        function renderFactoryParts() {
+            const tbody = document.getElementById('factory-parts-tbody');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+            
+            db.factoryParts.forEach(p => {
+                let isLow = Number(p.qty) <= Number(p.low);
+                let tr = document.createElement('tr');
+                tr.className = 'hover:bg-[#131b2e]/50 transition text-xs';
+                tr.innerHTML = `
+                    <td class="p-3.5 font-mono text-cyan-400 font-bold">${p.code}</td>
+                    <td class="p-3.5 font-medium text-white">${p.name}</td>
+                    <td class="p-3.5 font-mono">Rs ${Number(p.cost).toLocaleString()}</td>
+                    <td class="p-3.5 font-bold text-amber-400">${Number(p.qty).toLocaleString()} <span class="text-[10px] text-slate-400 font-normal">${p.unit}</span></td>
+                    <td class="p-3.5 font-mono text-slate-400">${p.low}</td>
+                    <td class="p-3.5">
+                        ${isLow ? '<span class="px-2 py-0.5 bg-rose-500/20 text-rose-400 border border-rose-500/30 rounded text-[10px] font-bold">⚠️ Low Stock</span>' : '<span class="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 rounded text-[10px]">Normal</span>'}
+                    </td>
+                    <td class="p-3.5 text-right space-x-2">
+                        <button onclick="editPart('${p.id}')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-cyan-400 rounded transition"><i class="fa-solid fa-pen"></i></button>
+                        <button onclick="deletePart('${p.id}')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-rose-400 rounded transition"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function openPartModal(id = null) {
+            document.getElementById('edit-part-id').value = '';
+            document.getElementById('part-code').value = '';
+            document.getElementById('part-name').value = '';
+            document.getElementById('part-cost').value = '';
+            document.getElementById('part-qty').value = '';
+            document.getElementById('part-low').value = '5';
+            document.getElementById('modal-part-title').innerText = 'Add Factory Item';
+            
+            if (id) {
+                let p = db.factoryParts.find(x => x.id === id);
+                if (p) {
+                    document.getElementById('edit-part-id').value = p.id;
+                    document.getElementById('part-code').value = p.code;
+                    document.getElementById('part-name').value = p.name;
+                    document.getElementById('part-cost').value = p.cost;
+                    document.getElementById('part-qty').value = p.qty;
+                    document.getElementById('part-unit').value = p.unit || 'Pieces';
+                    document.getElementById('part-low').value = p.low;
+                    document.getElementById('modal-part-title').innerText = 'Edit Factory Item';
+                }
+            }
+            document.getElementById('modal-part').classList.remove('hidden');
+        }
+
+        function editPart(id) { openPartModal(id); }
+
+        function saveFactoryPart(e) {
+            e.preventDefault();
+            let id = document.getElementById('edit-part-id').value;
+            let item = {
+                id: id ? id : Date.now().toString(),
+                code: document.getElementById('part-code').value,
+                name: document.getElementById('part-name').value,
+                cost: Number(document.getElementById('part-cost').value),
+                qty: Number(document.getElementById('part-qty').value),
+                unit: document.getElementById('part-unit').value,
+                low: Number(document.getElementById('part-low').value)
+            };
+
+            if (id) {
+                let idx = db.factoryParts.findIndex(x => x.id === id);
+                if (idx >= 0) db.factoryParts[idx] = item;
+            } else {
+                db.factoryParts.push(item);
+            }
+            closeModal('modal-part');
+            saveData();
+        }
+
+        function deletePart(id) {
+            if (confirm('Are you sure you want to delete this item?')) {
+                db.factoryParts = db.factoryParts.filter(x => x.id !== id);
+                saveData();
+            }
+        }
+
+        // Finished Goods Inventory CRUD
+        function renderInventory() {
+            const tbody = document.getElementById('inventory-table-body');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+            db.inventory.forEach(i => {
+                let tr = document.createElement('tr');
+                tr.className = 'hover:bg-[#131b2e]/50 transition text-xs';
+                tr.innerHTML = `
+                    <td class="p-3.5 font-mono text-cyan-400 font-bold">${i.code}</td>
+                    <td class="p-3.5 font-medium text-white">${i.name}</td>
+                    <td class="p-3.5 font-mono">Rs ${Number(i.cost).toLocaleString()}</td>
+                    <td class="p-3.5 font-mono text-emerald-400 font-bold">Rs ${Number(i.sell).toLocaleString()}</td>
+                    <td class="p-3.5 font-bold">${i.qty} Units</td>
+                    <td class="p-3.5 text-right space-x-2">
+                        <button onclick="editStock('${i.id}')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-cyan-400 rounded transition"><i class="fa-solid fa-pen"></i></button>
+                        <button onclick="deleteStock('${i.id}')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-rose-400 rounded transition"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function openStockModal(id = null) {
+            document.getElementById('edit-stock-id').value = '';
+            document.getElementById('stock-code').value = '';
+            document.getElementById('stock-name').value = '';
+            document.getElementById('stock-cost').value = '';
+            document.getElementById('stock-sell').value = '';
+            document.getElementById('stock-qty').value = '';
+            document.getElementById('modal-stock-title').innerText = 'Add Finished Goods Item';
+
+            if (id) {
+                let s = db.inventory.find(x => x.id === id);
+                if (s) {
+                    document.getElementById('edit-stock-id').value = s.id;
+                    document.getElementById('stock-code').value = s.code;
+                    document.getElementById('stock-name').value = s.name;
+                    document.getElementById('stock-cost').value = s.cost;
+                    document.getElementById('stock-sell').value = s.sell;
+                    document.getElementById('stock-qty').value = s.qty;
+                    document.getElementById('modal-stock-title').innerText = 'Edit Finished Goods Item';
+                }
+            }
+            document.getElementById('modal-stock').classList.remove('hidden');
+        }
+
+        function editStock(id) { openStockModal(id); }
+
+        function saveStockItem(e) {
+            e.preventDefault();
+            let id = document.getElementById('edit-stock-id').value;
+            let item = {
+                id: id ? id : Date.now().toString(),
+                code: document.getElementById('stock-code').value,
+                name: document.getElementById('stock-name').value,
+                cost: Number(document.getElementById('stock-cost').value),
+                sell: Number(document.getElementById('stock-sell').value),
+                qty: Number(document.getElementById('stock-qty').value)
+            };
+            if (id) {
+                let idx = db.inventory.findIndex(x => x.id === id);
+                if (idx >= 0) db.inventory[idx] = item;
+            } else {
+                db.inventory.push(item);
+            }
+            closeModal('modal-stock');
+            saveData();
+        }
+
+        function deleteStock(id) {
+            if (confirm('Delete this product?')) {
+                db.inventory = db.inventory.filter(x => x.id !== id);
+                saveData();
+            }
+        }
+
+        // Customers & 200-Year Vault
+        function renderCustomers() {
+            const tbody = document.getElementById('customer-table-body');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            db.customers.forEach(c => {
+                let totBill = c.history.reduce((acc, h) => acc + Number(h.total), 0);
+                let totPaid = c.history.reduce((acc, h) => acc + Number(h.paid), 0);
+                let netBaqaya = totBill - totPaid;
+
+                let tr = document.createElement('tr');
+                tr.className = 'hover:bg-[#131b2e]/60 transition cursor-pointer text-xs';
+                tr.onclick = () => openCustomerDrawer(c.id);
+                tr.innerHTML = `
+                    <td class="p-3.5">
+                        <div class="font-extrabold text-white text-sm">${c.name}</div>
+                        <div class="text-[11px] text-cyan-400">${c.phone}</div>
+                    </td>
+                    <td class="p-3.5 text-slate-400 font-medium">—</td>
+                    <td class="p-3.5">
+                        <div class="text-slate-300">${c.address}</div>
+                    </td>
+                    <td class="p-3.5 font-mono font-bold text-white">Rs ${totBill.toLocaleString()}</td>
+                    <td class="p-3.5 font-mono font-bold text-emerald-400">Rs ${totPaid.toLocaleString()}</td>
+                    <td class="p-3.5 font-mono font-bold ${netBaqaya > 0 ? 'text-rose-400' : 'text-slate-400'}">Rs ${netBaqaya.toLocaleString()}</td>
+                    <td class="p-3.5 text-right space-x-1" onclick="event.stopPropagation()">
+                        <button onclick="openCustomerDrawer('${c.id}')" class="px-2.5 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl font-semibold shadow transition" title="Open Ledger"><i class="fa-solid fa-vault"></i></button>
+                        <button onclick="editCustomer('${c.id}')" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-cyan-400 rounded-xl" title="Edit Customer"><i class="fa-solid fa-pen"></i></button>
+                        <button onclick="deleteCustomer('${c.id}')" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-rose-400 rounded-xl" title="Delete Customer"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function openCustomerModal(id = null) {
+            document.getElementById('form-customer').reset();
+            document.getElementById('edit-customer-id').value = '';
+            document.getElementById('modal-customer-title').innerText = 'Add New Customer';
+            const initBox = document.getElementById('initial-transaction-box');
+            initBox.style.display = 'block';
+
+            const container = document.getElementById('history-rows-container');
+            container.innerHTML = `
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 bg-[#151c2f] p-3 rounded-xl border border-slate-700">
+                    <div>
+                        <label class="block text-[10px] text-slate-400 mb-1">Item / Inverter</label>
+                        <input type="text" id="init-inverter" placeholder="e.g. 5KW Inverter" class="w-full bg-[#07090e] border border-slate-700 rounded-lg p-2 text-white text-xs">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] text-slate-400 mb-1">Total Amount (Rs)</label>
+                        <input type="number" id="init-total" min="0" placeholder="0" class="w-full bg-[#07090e] border border-slate-700 rounded-lg p-2 text-white text-xs">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] text-slate-400 mb-1">Paid Amount (Rs) [0 for Credit]</label>
+                        <input type="number" id="init-paid" min="0" value="0" placeholder="0" class="w-full bg-[#07090e] border border-slate-700 rounded-lg p-2 text-white text-xs">
+                    </div>
+                </div>
+            `;
+
+            if (id) {
+                let c = db.customers.find(x => x.id === id);
+                if (c) {
+                    document.getElementById('edit-customer-id').value = c.id;
+                    document.getElementById('c-name').value = c.name;
+                    document.getElementById('c-phone').value = c.phone;
+                    document.getElementById('c-address').value = c.address;
+                    document.getElementById('modal-customer-title').innerText = 'Edit Customer Details';
+                    initBox.style.display = 'none';
+                }
+            }
+
+            document.getElementById('modal-customer').classList.remove('hidden');
+        }
+
+        function editCustomer(id) {
+            openCustomerModal(id);
+        }
+
+        function saveCustomerWithHistory(e) {
+            e.preventDefault();
+            let editId = document.getElementById('edit-customer-id').value;
+            let name = document.getElementById('c-name').value;
+            let phone = document.getElementById('c-phone').value;
+            let address = document.getElementById('c-address').value;
+
+            if (editId) {
+                let c = db.customers.find(x => x.id === editId);
+                if (c) {
+                    c.name = name;
+                    c.phone = phone;
+                    c.address = address;
+                }
+            } else {
+                let historyList = [];
+                let invField = document.getElementById('init-inverter');
+                if (invField && invField.value) {
+                    let tot = Number(document.getElementById('init-total').value || 0);
+                    let paid = Number(document.getElementById('init-paid').value || 0);
+
+                    historyList.push({
+                        id: 'h_' + Date.now(),
+                        inverter: invField.value,
+                        date: new Date().toISOString().split('T')[0],
+                        returnDate: '',
+                        total: tot,
+                        paid: paid
+                    });
+                }
+
+                let newCust = {
+                    id: Date.now().toString(),
+                    name, phone, address,
+                    history: historyList
+                };
+                db.customers.push(newCust);
+            }
+
+            closeModal('modal-customer');
+            saveData();
+        }
+
+        function deleteCustomer(id) {
+            if (confirm('Are you sure you want to delete this customer and their entire history vault?')) {
+                db.customers = db.customers.filter(x => x.id !== id);
+                saveData();
+            }
+        }
+
+        // Customer Full Screen Drawer Vault
+        let activeDrawerCustomerId = null;
+        function openCustomerDrawer(customerId) {
+            activeDrawerCustomerId = customerId;
+            let c = db.customers.find(x => x.id === customerId);
+            if (!c) return;
+
+            document.getElementById('drawer-c-name').innerText = c.name;
+            document.getElementById('drawer-c-meta').innerText = `Phone: ${c.phone} | Address: ${c.address} | Guarantor: ${c.guarantor || 'None'}`;
+            document.getElementById('drawer-cust-id').value = c.id;
+            document.getElementById('d-date').value = new Date().toISOString().split('T')[0];
+
+            renderDrawerTimeline(c);
+            document.getElementById('drawer-customer').classList.remove('hidden');
+        }
+
+        function closeCustomerDrawer() {
+            document.getElementById('drawer-customer').classList.add('hidden');
+            activeDrawerCustomerId = null;
+            renderCustomers();
+            renderDashboard();
+        }
+
+        function renderDrawerTimeline(c) {
+            let totBill = c.history.reduce((acc, h) => acc + Number(h.total), 0);
+            let totPaid = c.history.reduce((acc, h) => acc + Number(h.paid), 0);
+            let netDue = totBill - totPaid;
+
+            document.getElementById('drawer-tot-bill').innerText = 'Rs ' + totBill.toLocaleString();
+            document.getElementById('drawer-tot-paid').innerText = 'Rs ' + totPaid.toLocaleString();
+            document.getElementById('drawer-tot-due').innerText = 'Rs ' + netDue.toLocaleString();
+
+            const container = document.getElementById('drawer-timeline-list');
+            container.innerHTML = '';
+
+            if (c.history.length === 0) {
+                container.innerHTML = `<div class="p-6 text-center text-slate-500 bg-[#07090e] rounded-2xl border border-slate-800">No historical records in this 200-year vault yet. Add the first entry above!</div>`;
+                return;
+            }
+
+            let sorted = [...c.history].sort((a,b) => new Date(b.date) - new Date(a.date));
+
+            sorted.forEach(h => {
+                let due = Number(h.total) - Number(h.paid);
+                let div = document.createElement('div');
+                div.className = 'bg-[#07090e] p-5 rounded-2xl border border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shadow-xl';
+                div.innerHTML = `
+                    <div class="space-y-1">
+                        <div class="flex items-center gap-2">
+                            <span class="px-2 py-0.5 bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 rounded font-mono text-[10px]">${h.date}</span>
+                            <h5 class="font-bold text-white text-sm">${h.inverter}</h5>
+                        </div>
+                        ${h.returnDate ? `<p class="text-[11px] text-amber-400"><i class="fa-solid fa-calendar-days"></i> Expected Return: ${h.returnDate}</p>` : ''}
+                    </div>
+                    <div class="flex items-center gap-6 w-full sm:w-auto justify-between sm:justify-end border-t sm:border-t-0 pt-3 sm:pt-0 border-slate-800">
+                        <div class="text-right">
+                            <p class="text-[10px] text-slate-400">Total / Paid</p>
+                            <p class="font-mono text-xs font-bold text-white">Rs ${Number(h.total).toLocaleString()} / <span class="text-emerald-400">Rs ${Number(h.paid).toLocaleString()}</span></p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-[10px] text-slate-400">Balance</p>
+                            <p class="font-mono text-xs font-extrabold ${due > 0 ? 'text-rose-400' : 'text-slate-400'}">Rs ${due.toLocaleString()}</p>
+                        </div>
+                        <button onclick="deleteCustomerHistory('${c.id}', '${h.id}')" class="p-2 bg-slate-800 hover:bg-slate-700 text-rose-400 rounded-xl transition"><i class="fa-solid fa-trash text-xs"></i></button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function addEntryToDrawerCustomer(e) {
+            e.preventDefault();
+            let custId = document.getElementById('drawer-cust-id').value;
+            let c = db.customers.find(x => x.id === custId);
+            if (!c) return;
+
+            let tot = Number(document.getElementById('d-total').value);
+            let paid = 0; // Default paid amount to 0 since the field was removed
+
+            let newEntry = {
+                id: 'h_' + Date.now(),
+                inverter: document.getElementById('d-inverter').value,
+                date: document.getElementById('d-date').value,
+                returnDate: document.getElementById('d-return-date').value,
+                total: tot,
+                paid: paid
+            };
+
+            c.history.push(newEntry);
+            saveData();
+            openCustomerDrawer(custId);
+
+            document.getElementById('d-inverter').value = '';
+            document.getElementById('d-total').value = '';
+            document.getElementById('d-return-date').value = '';
+        }
+
+        function deleteCustomerHistory(custId, historyId) {
+            if (confirm('Are you sure you want to delete this specific timeline entry?')) {
+                let c = db.customers.find(x => x.id === custId);
+                if (c) {
+                    c.history = c.history.filter(h => h.id !== historyId);
+                    saveData();
+                    openCustomerDrawer(custId);
+                }
+            }
+        }
+
+        // Invoices
+        function renderInvoices() {
+            const tbody = document.getElementById('invoices-table-body');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+            db.invoices.forEach(inv => {
+                let tr = document.createElement('tr');
+                tr.className = 'hover:bg-[#131b2e]/50 transition text-xs';
+                tr.innerHTML = `
+                    <td class="p-3.5 font-mono text-cyan-400 font-bold">${inv.id}</td>
+                    <td class="p-3.5 text-slate-300">${inv.date}</td>
+                    <td class="p-3.5 font-medium text-white">${inv.customerName}</td>
+                    <td class="p-3.5 font-mono text-emerald-400 font-bold">Rs ${Number(inv.amount).toLocaleString()}</td>
+                    <td class="p-3.5 text-right">
+                        <button onclick="printInvoice('${inv.id}')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-cyan-400 rounded-xl"><i class="fa-solid fa-print"></i> Print</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function openNewInvoiceModal() {
+            let custName = prompt("Enter Customer Name for Invoice:", "Haji Naimatullah");
+            if (!custName) return;
+            let amount = prompt("Enter Total Invoice Amount (Rs):", "50000");
+            if (!amount) return;
+
+            let newInv = {
+                id: 'INV-' + Math.floor(1000 + Math.random() * 9000),
+                date: new Date().toISOString().split('T')[0],
+                customerName: custName,
+                amount: Number(amount),
+                items: [{name: 'Custom Service / Repair', qty: 1, price: Number(amount)}]
+            };
+            db.invoices.push(newInv);
+            saveData();
+        }
+
+        function printInvoice(id) {
+            let inv = db.invoices.find(x => x.id === id);
+            if (!inv) return;
+            let w = window.open('', '_blank');
+            w.document.write(`
+                <html>
+                <head><title>Invoice ${inv.id}</title></head>
+                <body style="font-family:sans-serif; padding:20px;">
+                    <h2>Pishin Inverter Factory & Ledger Center</h2>
+                    <p><b>Invoice ID:</b> ${inv.id}</p>
+                    <p><b>Date:</b> ${inv.date}</p>
+                    <p><b>Customer:</b> ${inv.customerName}</p>
+                    <hr>
+                    <h3>Total Amount: Rs ${Number(inv.amount).toLocaleString()}</h3>
+                    <br><p>Thank you for your business!</p>
+                </body>
+                </html>
+            `);
+            w.document.close();
+            w.print();
+        }
+
+        // Notifications & Return-Date Alerts
+        function toggleNotifications() {
+            const dropdown = document.getElementById('notif-dropdown');
+            dropdown.classList.toggle('hidden');
+        }
+
+        function checkNotifications() {
+            let lowItems = db.factoryParts.filter(p => Number(p.qty) <= Number(p.low));
+            
+            let todayStr = new Date().toISOString().split('T')[0];
+            let todayDate = new Date(todayStr);
+            let upcomingReturns = [];
+
+            db.customers.forEach(c => {
+                c.history.forEach(h => {
+                    if (h.returnDate) {
+                        let retDate = new Date(h.returnDate);
+                        let diffDays = Math.ceil((retDate - todayDate) / (1000 * 60 * 60 * 24));
+                        if (diffDays <= 2) {
+                            upcomingReturns.push({
+                                customerName: c.name,
+                                phone: c.phone,
+                                inverter: h.inverter,
+                                returnDate: h.returnDate,
+                                status: diffDays < 0 ? 'Overdue!' : (diffDays === 0 ? 'Due Today!' : 'Due Soon')
+                            });
+                        }
+                    }
+                });
+            });
+
+            const badge = document.getElementById('notif-badge');
+            const countText = document.getElementById('notif-count-text');
+            const list = document.getElementById('notif-list');
+
+            let totalAlertsCount = lowItems.length + upcomingReturns.length;
+
+            if (totalAlertsCount > 0) {
+                badge.classList.remove('hidden');
+                badge.innerText = totalAlertsCount;
+                countText.innerText = `${totalAlertsCount} Alerts`;
+
+                let htmlContent = '';
+                
+                lowItems.forEach(item => {
+                    htmlContent += `
+                        <div class="p-2.5 bg-rose-500/10 border border-rose-500/30 rounded-xl flex justify-between items-center">
+                            <div>
+                                <span class="font-bold text-white">Stock: ${item.name}</span>
+                                <p class="text-[10px] text-rose-400">Qty: ${item.qty} ${item.unit} (Limit: ${item.low})</p>
+                            </div>
+                            <span class="px-2 py-0.5 bg-rose-600 text-white rounded text-[9px] font-bold">LOW STOCK</span>
+                        </div>
+                    `;
+                });
+
+                upcomingReturns.forEach(ret => {
+                    htmlContent += `
+                        <div class="p-2.5 bg-amber-500/10 border border-amber-500/30 rounded-xl flex justify-between items-center">
+                            <div>
+                                <span class="font-bold text-white">${ret.customerName} (${ret.phone})</span>
+                                <p class="text-[10px] text-amber-400">${ret.inverter} - Return: ${ret.returnDate}</p>
+                            </div>
+                            <span class="px-2 py-0.5 bg-amber-600 text-white rounded text-[9px] font-bold">${ret.status}</span>
+                        </div>
+                    `;
+                });
+
+                list.innerHTML = htmlContent;
+            } else {
+                badge.classList.add('hidden');
+                countText.innerText = '0 Alerts';
+                list.innerHTML = `<div class="p-4 text-center text-slate-500">All inventory levels and return schedules are clear!</div>`;
+            }
+        }
+
+        // Backup & Restore
+        function exportData() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db, null, 2));
+            const dlAnchor = document.createElement('a');
+            dlAnchor.setAttribute("href", dataStr);
+            dlAnchor.setAttribute("download", `pishin_factory_backup_${new Date().toISOString().split('T')[0]}.json`);
+            document.body.appendChild(dlAnchor);
+            dlAnchor.click();
+            dlAnchor.remove();
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    db = JSON.parse(e.target.result);
+                    saveData();
+                    alert('Database successfully restored!');
+                } catch(err) {
+                    alert('Invalid backup file format!');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+
+        // Window Onload Initialization
+        window.onload = function() {
+            loadData();
+            switchTab('dashboard');
+            saveData();
+        };
+    </script>
+</body>
+</html>
